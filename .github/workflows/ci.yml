@@ -34,5 +34,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3.0.0
         with:
-          name: Artifacts
+          name: artifacts-${{ matrix.os }}
           path: dist
