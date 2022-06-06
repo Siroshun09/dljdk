@@ -27,7 +27,7 @@ archives:
       arm64: arm64
     format_overrides:
       - goos: windows
-        format: binary
+        format: zip
 snapshot:
   name_template: SNAPSHOT-{{ .Commit }}
 changelog:
