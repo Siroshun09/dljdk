@@ -1,4 +1,4 @@
-module dljdk
+module github.com/Sirohun09/dljdk
 
 go 1.18
 

@@ -1,8 +1,8 @@
 package temurin
 
 import (
-	"dljdk/common"
 	"encoding/json"
+	"github.com/Sirohun09/dljdk/common"
 	"io"
 	"log"
 	"net/http"

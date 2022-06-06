@@ -1,8 +1,8 @@
 package main
 
 import (
-	"dljdk/common"
-	"dljdk/temurin"
+	"github.com/Sirohun09/dljdk/common"
+	"github.com/Sirohun09/dljdk/temurin"
 	"log"
 	"os"
 	"strconv"
