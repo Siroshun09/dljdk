@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-func DownloadZip(info DownloadInfo, filename string) {
+func Download(info DownloadInfo, filename string) {
 	fp, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0664)
 
 	if err != nil {

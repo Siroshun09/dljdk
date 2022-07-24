@@ -5,6 +5,7 @@ import (
 	"github.com/Sirohun09/dljdk/temurin"
 	"log"
 	"os"
+	"runtime"
 	"strconv"
 )
 
@@ -23,13 +24,32 @@ func main() {
 
 	log.Println("Searching for JDK " + strconv.Itoa(version) + " from adoptium.net...")
 
-	info := temurin.Get(version, "windows")
+	var osName string
+
+	switch runtime.GOOS {
+	case "windows", "linux":
+		osName = runtime.GOOS
+	case "darwin":
+		osName = "mac"
+	default:
+		log.Fatalf("Unsupported OS: %s", runtime.GOOS)
+	}
+
+	info := temurin.Get(version, osName)
 
 	log.Println("Downloading " + info.Name + " from " + info.Link)
 
-	filename := "jdk-" + strconv.Itoa(version) + ".zip"
+	var extension string
 
-	common.DownloadZip(info, filename)
+	if osName == "windows" {
+		extension = ".zip"
+	} else {
+		extension = ".tar.gz"
+	}
+
+	filename := "jdk-" + strconv.Itoa(version) + extension
+
+	common.Download(info, filename)
 
 	log.Println(info.Name + " has been downloaded to " + filename + "!")
 	os.Exit(0)
