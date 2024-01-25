@@ -4,7 +4,7 @@ go 1.21
 
 toolchain go1.21.5
 
-require github.com/cheggaaa/pb/v3 v3.1.4
+require github.com/cheggaaa/pb/v3 v3.1.5
 
 require (
 	github.com/VividCortex/ewma v1.2.0 // indirect
