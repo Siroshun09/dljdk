@@ -6,69 +6,56 @@ import (
 	"github.com/cheggaaa/pb/v3"
 	"hash"
 	"io"
-	"log"
 	"net/http"
 	"os"
 )
 
-func Download(info DownloadInfo, filename string) {
-	fp, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0664)
+type DownloadInfo struct {
+	Name     string
+	Link     string
+	Checksum string
+	Size     int
+}
 
+func (info DownloadInfo) Download(filename string) (hash hash.Hash, returningErr error) {
+	fp, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0664)
 	if err != nil {
-		log.Fatalf("Could not open file: %s", err)
+		return nil, fmt.Errorf("could not open file: %w", err)
 	}
 
 	resp, err := http.Get(info.Link)
 	if err != nil {
-		log.Fatalf("Could not download file: %s", err)
+		return nil, fmt.Errorf("could not download file: %w", err)
 	}
 
 	defer func(Body io.ReadCloser) {
-		err := fp.Close()
-		if err != nil {
-			log.Fatalf("Could not close body: %s", err)
+		closeErr := fp.Close()
+		if closeErr != nil {
+			returningErr = fmt.Errorf("could not close body: %w", closeErr)
 		}
 	}(resp.Body)
 
-	p := Progress{pb.Full.New(info.Size).Set(pb.Bytes, true).Start(), sha256.New()}
+	p := progress{pb.Full.New(info.Size).Set(pb.Bytes, true).Start(), sha256.New()}
 
 	_, err = io.Copy(fp, io.TeeReader(resp.Body, &p))
 	if err != nil {
-		log.Fatalf("Could not copy the downloaded file: %s", err)
+		return nil, fmt.Errorf("could not copy the downloaded file: %w", err)
 	}
 
-	p.Bar.Finish()
-	log.Println("Calculating checksum...")
-
-	expected := info.Checksum
-	actual := fmt.Sprintf("%x", p.Sha256.Sum(nil))
-
-	if actual != expected {
-		log.Println("The SHA-256 hash value of the downloaded file was not as expected!")
-		log.Printf("Expected: %s\n", expected)
-		log.Printf("Actual: %s\n", actual)
-		log.Println("Deleting the downloaded file...")
-
-		err := os.Remove(filename)
-
-		if err != nil {
-			log.Fatalf("Could not delete %s: %s", filename, err)
-		}
-
-		os.Exit(1)
-	}
+	p.bar.Finish()
+	return p.sha256, nil
 }
 
-type Progress struct {
-	Bar    *pb.ProgressBar
-	Sha256 hash.Hash
+type progress struct {
+	bar    *pb.ProgressBar
+	sha256 hash.Hash
 }
 
-func (p *Progress) Write(data []byte) (int, error) {
+func (p *progress) Write(data []byte) (int, error) {
 	n := len(data)
 
-	p.Bar.Add(len(data))
-	p.Sha256.Write(data)
+	p.bar.Add(len(data))
+	p.sha256.Write(data)
 
 	return n, nil
 }

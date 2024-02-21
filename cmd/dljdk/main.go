@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Sirohun09/dljdk/common"
+	"fmt"
 	"github.com/Sirohun09/dljdk/temurin"
 	"log"
 	"os"
@@ -25,31 +25,53 @@ func main() {
 	log.Println("Searching for JDK " + strconv.Itoa(version) + " from adoptium.net...")
 
 	var osName string
-
-	switch runtime.GOOS {
-	case "windows", "linux":
-		osName = runtime.GOOS
-	case "darwin":
-		osName = "mac"
-	default:
-		log.Fatalf("Unsupported OS: %s", runtime.GOOS)
-	}
-
-	info := temurin.Get(version, osName)
-
-	log.Println("Downloading " + info.Name + " from " + info.Link)
-
 	var extension string
 
-	if osName == "windows" {
+	switch runtime.GOOS {
+	case "windows":
+		osName = runtime.GOOS
 		extension = ".zip"
-	} else {
+	case "linux":
+		osName = runtime.GOOS
 		extension = ".tar.gz"
+	case "darwin":
+		osName = "mac"
+		extension = ".tar.gz"
+	default:
+		log.Fatalf("unsupported OS: %s", runtime.GOOS)
+	}
+
+	info, err := temurin.Get(version, osName)
+	if err != nil {
+		log.Fatalf("could not get download info: %s", err)
 	}
 
 	filename := "jdk-" + strconv.Itoa(version) + extension
 
-	common.Download(info, filename)
+	log.Println("Downloading " + info.Name + " from " + info.Link)
+
+	hash, err := info.Download(filename)
+	if err != nil {
+		log.Fatalf("error occurred while downloading: %s", err)
+	}
+
+	log.Println("Calculating checksum...")
+	expected := info.Checksum
+	actual := fmt.Sprintf("%x", hash.Sum(nil))
+
+	if actual != expected {
+		log.Println("the SHA-256 hash value of the downloaded file was not as expected!")
+		log.Printf("expected %s but got %s", expected, actual)
+		log.Println("deleting the downloaded file...")
+
+		err = os.Remove(filename)
+
+		if err != nil {
+			log.Fatalf("could not delete %s: %s", filename, err)
+		}
+
+		log.Fatalf("Expected SHA-256 hash is %s, but the downloaded file's one is %s, so the file has been deleted", expected, actual)
+	}
 
 	log.Println(info.Name + " has been downloaded to " + filename + "!")
 	os.Exit(0)
