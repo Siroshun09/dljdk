@@ -18,7 +18,7 @@ type DownloadInfo struct {
 }
 
 func (info DownloadInfo) Download(filename string) (hash hash.Hash, returningErr error) {
-	fp, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0664)
+	fp, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0664)
 	if err != nil {
 		return nil, fmt.Errorf("could not open file: %w", err)
 	}
