@@ -1,6 +1,6 @@
 module github.com/Sirohun09/dljdk
 
-go 1.22.4
+go 1.22.5
 
 require github.com/cheggaaa/pb/v3 v3.1.5
 
