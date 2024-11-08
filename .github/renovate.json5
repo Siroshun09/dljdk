@@ -6,20 +6,6 @@
   ],
   packageRules: [
     {
-      groupName: 'all non-major dependencies for gh-actions',
-      groupSlug: 'gha-all-minor-patch',
-      matchManagers: [
-        'github-actions',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchPackageNames: [
-        '*',
-      ],
-    },
-    {
       groupName: 'all non-major dependencies for go',
       groupSlug: 'go-all-minor-patch',
       matchManagers: [
