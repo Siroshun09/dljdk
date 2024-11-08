@@ -31,7 +31,7 @@ archives:
       - goos: windows
         format: zip
 snapshot:
-  name_template: SNAPSHOT-{{ .Commit }}
+  version_template: SNAPSHOT-{{ .Commit }}
 changelog:
   sort: asc
   filters:
