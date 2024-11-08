@@ -1,33 +1,37 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-    "helpers:pinGitHubActionDigests"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    'helpers:pinGitHubActionDigests',
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "groupName": "all non-major dependencies for gh-actions",
-      "groupSlug": "gha-all-minor-patch",
-      "matchManagers": ["github-actions"],
-      "matchPackagePatterns": [
-        "*"
+      groupName: 'all non-major dependencies for gh-actions',
+      groupSlug: 'gha-all-minor-patch',
+      matchManagers: [
+        'github-actions',
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      matchPackageNames: [
+        '*',
+      ],
     },
     {
-      "groupName": "all non-major dependencies for go",
-      "groupSlug": "go-all-minor-patch",
-      "matchManagers": ["gomod"],
-      "matchPackagePatterns": [
-        "*"
+      groupName: 'all non-major dependencies for go',
+      groupSlug: 'go-all-minor-patch',
+      matchManagers: [
+        'gomod',
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
-    }
-  ]
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      matchPackageNames: [
+        '*',
+      ],
+    },
+  ],
 }
