@@ -3,11 +3,12 @@ package common
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/cheggaaa/pb/v3"
 	"hash"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/cheggaaa/pb/v3"
 )
 
 type DownloadInfo struct {

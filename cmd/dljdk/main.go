@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/Sirohun09/dljdk/temurin"
 	"log"
 	"os"
 	"runtime"
 	"strconv"
+
+	"github.com/Sirohun09/dljdk/temurin"
 )
 
 func main() {

@@ -3,10 +3,11 @@ package temurin
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Sirohun09/dljdk/common"
 	"io"
 	"net/http"
 	"strconv"
+
+	"github.com/Sirohun09/dljdk/common"
 )
 
 func Get(javaVersion int, osName string) (info *common.DownloadInfo, returningErr error) {
