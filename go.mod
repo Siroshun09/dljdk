@@ -1,6 +1,6 @@
 module github.com/Sirohun09/dljdk
 
-go 1.23.3
+go 1.24.3
 
 require github.com/cheggaaa/pb/v3 v3.1.7
 
@@ -11,5 +11,5 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
 )
