@@ -14,4 +14,4 @@ A simple Go application to download JDK from adoptium.
 
 This project is under the Apache License version 2.0. Please see [LICENSE](LICENSE) for more info.
 
-Copyright © 2022-2025, Siroshun09
+Copyright © 2022-2026, Siroshun09
